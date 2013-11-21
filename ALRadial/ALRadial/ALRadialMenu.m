@@ -229,6 +229,10 @@
 	if (radialButton.tag == 1) {
 		//all the buttons are removed, kill the array that was retaining them
 		self.items = nil;
+        
+        if([self.delegate respondsToSelector:@selector(radialMenuDidEndHiding:)]){
+            [self.delegate radialMenuDidEndHiding:self];
+        }
 	}
 }
 

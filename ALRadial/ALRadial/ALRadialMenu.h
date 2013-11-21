@@ -69,6 +69,12 @@
  */
 - (float) buttonSizeForRadialMenu:(ALRadialMenu *)radialMenu;
 
+/**
+ * this method will notify the delegates when all button are disappeared
+ * @param radialMenu the radial menu object that the button appeared from
+ */
+- (void) radialMenuDidEndHiding:(ALRadialMenu *)radialMenu;
+
 @end
 
 

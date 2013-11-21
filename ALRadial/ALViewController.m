@@ -135,4 +135,9 @@
 
 }
 
+- (void) radialMenuDidEndHiding:(ALRadialMenu *)radialMenu
+{
+    NSLog(@"Menu did end hiding");
+}
+
 @end
