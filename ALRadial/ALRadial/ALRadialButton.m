@@ -20,19 +20,27 @@
     return self;
 }
 
-
+- (void)runSpinAnimationOnView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;
+{
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 /* full rotation*/ * rotations * duration ];
+    rotationAnimation.duration = duration;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = repeat;
+    
+    [view.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
 
 - (void)willAppear {
 	//rotate the button upsidedown so its right side up after the 180 degree rotation while its moving out
-	[self.imageView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, 180/180*M_PI)];
-	
+    [self runSpinAnimationOnView:self.imageView duration:0.25 rotations:5 repeat:2];
+    
 	self.alpha = 1.0;
-	
+
 	[UIView animateWithDuration:.25f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^{
-		
-		//this animation rotates the button 180 degree's, and moves the center point to the end of the "string"
+
 		[self setCenter:self.bouncePoint];
-		[self.imageView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, 0/180*M_PI)];
 		
 	} completion:^(BOOL finished) {
 		
@@ -49,17 +57,18 @@
 	[UIView animateWithDuration:.15f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
 		
 		//first do the rotate in place animation
-		[self.imageView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, -(180/180*M_PI))];
+//		[self.imageView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, -(180/180*M_PI))];
+        [self runSpinAnimationOnView:self.imageView duration:0.25 rotations:7 repeat:0];
 	
 	} completion:^(BOOL finished) {
 		
-		[UIView animateWithDuration:.25f animations:^{
+		[UIView animateWithDuration:.5f animations:^{
 			//now move it back to the origin button
 			[self setCenter:self.originPoint];
-			
+			self.alpha = 0.0f;
 		} completion:^(BOOL finished) {
 			//finally hide the button and tell the delegate we are done so it can cleanup memory
-			self.alpha = 0.0f;
+			
 			[self.delegate buttonDidFinishAnimation:self];
 		}];
 		
