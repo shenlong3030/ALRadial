@@ -63,7 +63,7 @@
 
 - (NSInteger) arcSizeForRadialMenu:(ALRadialMenu *)radialMenu {
 	if (radialMenu == self.radialMenu) {
-		return 360;
+		return 270;
 	} else if (radialMenu == self.socialMenu) {
 		return 90;
 	}
@@ -133,6 +133,15 @@
 		}
 	}
 
+}
+
+- (NSInteger) arcStartForRadialMenu:(ALRadialMenu *)radialMenu
+{
+    if (radialMenu == self.radialMenu) {
+        return 180;
+    } else {
+        return 0;
+    }
 }
 
 - (void) radialMenuDidEndHiding:(ALRadialMenu *)radialMenu
